@@ -1,0 +1,27 @@
+/* Add your CSS styles here */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* CSS for the animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#computerChoice {
+    animation: spin 1s linear infinite;
+}
+
+/* CSS for different result colors */
+.win {
+    color: green;
+}
+
+.tie {
+    color: orange;
+}
+
+.lose {
+    color: red;
+}

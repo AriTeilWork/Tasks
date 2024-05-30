@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <!-- Link to an external CSS file for styles -->
+  <link rel="stylesheet" href="form-styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <audio id="background-music" loop>
+    <source src="/musik/1-02. Don't Deal With The Devil (Instrumental).mp3" type="audio/mpeg">
+  </audio>
+</head>
+<body>
+  <!- -!
+  <div class="form-container">
+    <form id="game-form" onsubmit="submitResult()">
+      <label for="player-name">Player Name:</label>
+      <input type="text" id="player-name" name="player-name" required>
+      <label for="level">Select Level:</label>
+      <select id="level" name="level">
+        <option value="level-one">Level 1</option>
+        <option value="level-two">Level 2</option>
+      </select>
+      <button type="submit">Start Game</button>
+    </form>
+  </div>
+
+  <div class="container">
+    <div class="item">
+      <div class="container">
+        <nav>
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" name="myCheckboxMusik" checked>
+                ♬ Musik On
+              </label>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="item">
+        <nav>
+          <ul>
+            <li>
+              <button type="button" id="restart-button">Reset game</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="item">
+        <nav>
+          <ul>
+            <li>
+              <label for="flips">flips:</label>
+              <span id="moves">0</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="item">
+        <nav>
+          <ul>
+            <li>
+              <label for="time">time:</label>
+              <span id="timer">0 seconds</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="item">
+        <nav>
+          <ul>
+            <li>
+              <label for="score">score:</label>
+              <span id="score">0</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="item">
+        <nav>
+          <ul>
+            <li>
+              <div class="level-selector">
+                <button onclick="selectLevel('level-one')">Level 1</button>
+                <button onclick="selectLevel('level-two')">Level 2</button>
+                <!-- ADD LEVELS -->
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- Level 1 -->
+    <div class="item" id="level-one-container" style="display: none;">
+      <section class="memory-game">
+        <div class="memory-card" data-framework="wine">
+            <img class="front-face" src="img/wine-svgrepo-com.svg" alt="wine-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="wine">
+            <img class="front-face" src="img/wine-svgrepo-com.svg" alt="wine-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="ice">
+            <img class="front-face" src="img/ice-cream-svgrepo-com.svg" alt="ice-cream-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="ice">
+            <img class="front-face" src="img/ice-cream-svgrepo-com.svg" alt="ice-cream-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="milk">
+            <img class="front-face" src="img/milk-tea-svgrepo-com.svg" alt="milk-tea">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="milk">
+            <img class="front-face" src="img/milk-tea-svgrepo-com.svg" alt="milk-tea">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="polaroid">
+            <img class="front-face" src="img/polaroid-svgrepo-com.svg" alt="polaroid-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="polaroid">
+            <img class="front-face" src="img/polaroid-svgrepo-com.svg" alt="polaroid-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="indicator">
+            <img class="front-face" src="img/indicator-svgrepo-com.svg" alt="indicator-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="indicator">
+            <img class="front-face" src="img/indicator-svgrepo-com.svg" alt="indicator-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="map">
+            <img class="front-face" src="img/map-svgrepo-com.svg" alt="map-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="map">
+            <img class="front-face" src="img/map-svgrepo-com.svg" alt="map-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+      </section>
+      <div class="win-message" id="win-message">Congratulations! You've won the game!</div>
+      <div class="game-over-message" id="game-over-message">Game over. You can try again!</div>
+    </div>
+    <!-- Level 2 -->
+    <div class="item" id="level-two-container" style="display: none;">
+      <section class="memory-game level" id="level-two">
+        <div class="memory-card" data-framework="wine">
+            <img class="front-face" src="img/wine-svgrepo-com.svg" alt="wine-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="wine">
+            <img class="front-face" src="img/wine-svgrepo-com.svg" alt="wine-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="ice">
+            <img class="front-face" src="img/ice-cream-svgrepo-com.svg" alt="ice-cream-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="ice">
+            <img class="front-face" src="img/ice-cream-svgrepo-com.svg" alt="ice-cream-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="milk">
+            <img class="front-face" src="img/milk-tea-svgrepo-com.svg" alt="milk-tea">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="milk">
+            <img class="front-face" src="img/milk-tea-svgrepo-com.svg" alt="milk-tea">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="polaroid">
+            <img class="front-face" src="img/polaroid-svgrepo-com.svg" alt="polaroid-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="polaroid">
+            <img class="front-face" src="img/polaroid-svgrepo-com.svg" alt="polaroid-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="indicator">
+            <img class="front-face" src="img/indicator-svgrepo-com.svg" alt="indicator-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="indicator">
+            <img class="front-face" src="img/indicator-svgrepo-com.svg" alt="indicator-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="map">
+            <img class="front-face" src="img/map-svgrepo-com.svg" alt="map-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="map">
+            <img class="front-face" src="img/map-svgrepo-com.svg" alt="map-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="surf">
+            <img class="front-face" src="img/surf-svgrepo-com.svg" alt="polaroid-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="surf">
+            <img class="front-face" src="img/surf-svgrepo-com.svg" alt="polaroid-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="suv">
+            <img class="front-face" src="img/suv-svgrepo-com.svg" alt="indicator-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+          <div class="memory-card" data-framework="suv">
+            <img class="front-face" src="img/suv-svgrepo-com.svg" alt="indicator-svgrepo">
+            <img class="back-face" src="img/target-svgrepo-com.svg" alt="target">
+          </div>
+      </section>
+      <!-- Player Form -->
+      <div class="item" id="player-form" style="display: none;">
+        <form id="result-form">
+          <label for="player-name">Player Name:</label>
+          <input type="text" id="player-name" name="player-name" required>
+          <button type="button" onclick="submitResult()">Submit Result</button>
+        </form>
+      </div>
+      <!-- Results Section -->
+      <div class="item" id="results" style="display: none;">
+        <h2>Results</h2>
+        <ul id="results-list"></ul>
+      </div>
+      <div class="win-message" id="win-message-level-two">Congratulations! You've won level two!</div>
+      <div class="game-over-message" id="game-over-message-level-two">Game over. You can try level two again!</div>
+    </div>
+  </div>
+  <script src="scripts.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerName = urlParams.get('player');
+    const selectedLevel = urlParams.get('level');
+
+    // Show the selected level container
+    document.getElementById(`${selectedLevel}-container`).style.display = 'block';
+  </script>
+  <script>
+    function selectLevel(level) {
+      // Hide all level containers
+      document.getElementById('level-one-container').style.display = 'none';
+      document.getElementById('level-two-container').style.display = 'none';
+
+      // Show the selected level container
+      document.getElementById(level + '-container').style.display = 'block';
+    }
+    
+  </script>
+</body>
+
+</html>

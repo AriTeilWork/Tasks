@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Analysis</title>
+</head>
+<body>
+    <h1>String Analysis</h1>
+    <p>Enter check word</p>
+    <input type="text" id="userWord">
+
+    <p>Enter a text to analyze:</p>
+    <textarea id="userText" rows="4" cols="50"></textarea>
+    <button onclick="analyzeText()">Analyze</button>
+    <div id="result"></div>
+
+    <script>
+        function analyzeText() {
+            // Get the user-entered check word and text
+            var checkWord = document.getElementById("userWord").value;
+            var userText = document.getElementById("userText").value;
+
+            // Count the occurrences of the check word in the text
+            var countOccurrences = countWordOccurrences(userText, checkWord);
+
+            // Check if the text contains the check word
+            if (countOccurrences > 0) {
+                document.getElementById("result").innerHTML = `The text contains '${checkWord}' ${countOccurrences} time(s).`;
+            } else {
+                document.getElementById("result").innerHTML = `The text does not contain '${checkWord}'.`;
+            }
+
+            // Loop through each character and display them in their own row
+            var charList = Array.from(userText).map(char => char + '<br>').join('');
+            document.getElementById("result").innerHTML += "<br>Character list:<br>" + charList;
+        }
+
+        // Function to count occurrences of a word in a text
+        function countWordOccurrences(text, word) {
+            var regex = new RegExp('\\b' + word + '\\b', 'gi');
+            var matches = text.match(regex);
+            return matches ? matches.length : 0;
+        }
+    </script>
+</body>
+</html>

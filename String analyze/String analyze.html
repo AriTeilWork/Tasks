@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Analysis</title>
+</head>
+<body>
+    <h1>String Analysis</h1>
+    <p>Enter a text to analyze:</p>
+    <textarea id="userText" rows="4" cols="50"></textarea>
+    <button onclick="analyzeText()">Analyze</button>
+    <div id="result"></div>
+
+    <script>
+        function analyzeText() {
+            // Get the user-entered text
+            var userText = document.getElementById("userText").value;
+            
+            // Check if the text contains "funny"
+            if (userText.toLowerCase().includes("funny")) {
+                document.getElementById("result").innerHTML = "The text was funny!";
+            } else {
+                document.getElementById("result").innerHTML = "The text was not funny at all.";
+            }
+
+            // Loop through each character and display them in their own row
+            var textLength = userText.length;
+            var charList = '';
+            for (var i = 0; i < textLength; i++) {
+                charList += userText.charAt(i) + '<br>';
+            }
+            document.getElementById("result").innerHTML += "<br>Character list:<br>" + charList;
+        }
+    </script>
+</body>
+</html>

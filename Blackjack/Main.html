@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+        }
+        .hand {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Blackjack Game</h2>
+        <button id="startBtn">Start</button>
+        <button id="hitBtn" disabled>Hit</button>
+        <button id="stayBtn" disabled>Stay</button>
+        <div id="playerHand" class="hand"></div>
+        <div id="computerHand" class="hand" style="display: none;"></div>
+        <div class="result" id="resultText"></div>
+        <h2>Blackjack Card Values</h2>
+        <table>
+            <tr>
+                <th>Card</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Jack (J)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Queen (Q)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>King (K)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Ace (A)</td>
+                <td>1 or 11</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        let playerHand = [];
+        let computerHand = [];
+        let playerScore = 0;
+        let computerScore = 0;
+        let gameStarted = false;
+
+        const startBtn = document.getElementById('startBtn');
+        const hitBtn = document.getElementById('hitBtn');
+        const stayBtn = document.getElementById('stayBtn');
+        const resultText = document.getElementById('resultText');
+        const playerHandElement = document.getElementById('playerHand');
+        const computerHandElement = document.getElementById('computerHand');
+
+        startBtn.addEventListener('click', startGame);
+        hitBtn.addEventListener('click', hit);
+        stayBtn.addEventListener('click', computerTurn);
+
+        function startGame() {
+            gameStarted = true;
+            startBtn.disabled = true;
+            hitBtn.disabled = false;
+            stayBtn.disabled = false;
+            resultText.textContent = '';
+
+            playerHand = [];
+            computerHand = [];
+            playerScore = 0;
+            computerScore = 0;
+
+            // Deal two cards for both player and computer
+            for (let i = 0; i < 2; i++) {
+                dealCard(playerHand);
+                dealCard(computerHand);
+            }
+
+            updateScore();
+            updatePlayerHand();
+            
+            // Show the computer's hand
+           // computerHandElement.style.display = 'block';
+            updateComputerHand();
+        }
+
+        function dealCard(hand) {
+            const cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            hand.push(randomCard);
+        }
+
+        function updateScore() {
+            playerScore = calculateScore(playerHand);
+            computerScore = calculateScore(computerHand);
+        }
+
+        function calculateScore(hand) {
+            let score = 0;
+            let hasAce = false;
+
+            for (let card of hand) {
+                if (card === 'A') {
+                    hasAce = true;
+                    score += 11;
+                } else if (card === 'K' || card === 'Q' || card === 'J') {
+                    score += 10;
+                } else {
+                    score += parseInt(card);
+                }
+            }
+
+            if (hasAce && score > 21) {
+                // If the hand contains an Ace and the score is over 21, treat Ace as 1
+                score -= 10;
+            }
+
+            return score;
+        }
+
+        function hit() {
+            if (gameStarted) {
+                dealCard(playerHand);
+                updateScore();
+                updatePlayerHand();
+                checkWin();
+            }
+        }
+
+        function computerTurn() {
+            while (computerScore < 17) {
+                dealCard(computerHand);
+                updateScore();
+            }
+            checkWin();
+        }
+
+        function checkWin() {
+            if (playerScore > 21) {
+                resultText.textContent = 'You busted! Computer wins.';
+                updateComputerHand(); // Update computer's hand when you lose
+            } else if (computerScore > 21) {
+                resultText.textContent = 'Computer busted! You win.';
+                updateComputerHand(); // Update computer's hand when you win
+            } else if (playerScore === 21 || (playerScore > computerScore && playerScore <= 21)) {
+                resultText.textContent = 'You win!';
+                updateComputerHand(); // Update computer's hand when you win
+            } else if (computerScore === 21 || (computerScore > playerScore && computerScore <= 21)) {
+                resultText.textContent = 'Computer wins.';
+                updateComputerHand(); // Update computer's hand when you lose
+            } else if (playerScore === computerScore) {
+                resultText.textContent = 'It\'s a tie!';
+                updateComputerHand(); // Update computer's hand in case of a tie
+            }
+
+            gameStarted = false;
+            startBtn.disabled = false;
+            hitBtn.disabled = true;
+            stayBtn.disabled = true;
+            computerHandElement.style.display = 'block';
+        }
+
+        function updatePlayerHand() {
+            playerHandElement.textContent = 'Player\'s Hand: ' + playerHand.join(', ');
+        }
+
+        function updateComputerHand() {
+            computerHandElement.textContent = 'Computer\'s Hand: ' + computerHand.join(', ');
+        }
+    </script>
+</body>
+</html>

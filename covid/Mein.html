@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Cases by Region</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Add your CSS styling here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+        .sort-icon {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>COVID-19 Cases by Region</h1>
+
+    <!-- Filter options -->
+    <div>
+        <label for="region-filter">Select Continent:</label>
+        <select id="region-filter">
+            <option value="All">All</option>
+            <!-- Continent options will be added dynamically with JavaScript -->
+        </select>
+    </div>
+    
+    <div>
+        <label for="day-filter">Select Day:</label>
+        <input type="number" id="day-filter" min="1" max="31">
+        <label for="month-filter">Select Month:</label>
+        <input type="number" id="month-filter" min="1" max="12">
+        <label for="year-filter">Select Year:</label>
+        <input type="number" id="year-filter" min="2020" max="2030">
+    </div>
+
+    <div>
+        <label for="country-search">Search by Country:</label>
+        <input type="text" id="country-search">
+    </div>
+
+    <!-- Table to display data -->
+    <table>
+        <thead>
+            <tr>
+                <th data-column="continentExp">Continent <span class="sort-icon"></span></th>
+                <th data-column="countriesAndTerritories">Country</th>
+                <th data-column="dateRep">Date <span class="sort-icon"></span></th>
+                <th data-column="cases">Cumulative Cases <span class="sort-icon"></span></th>
+                <th data-column="Cumulative_number_for_14_days_of_COVID-19_cases_per_100000">Cumulative Cases per 100000 <span class="sort-icon"></span></th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Data will be displayed here :)-->
+        </tbody>
+    </table>
+
+    <script>
+        const table = document.querySelector("table");
+        const sortIcons = document.querySelectorAll(".sort-icon");
+        const columns = table.querySelectorAll("th[data-column]");
+        const regionFilter = document.getElementById("region-filter");
+        const dayFilter = document.getElementById("day-filter");
+        const monthFilter = document.getElementById("month-filter");
+        const yearFilter = document.getElementById("year-filter");
+        const countrySearch = document.getElementById("country-search");
+
+        let data = [];
+
+        // Function to populate the table with data
+        function populateTable(data) {
+            const tableBody = document.getElementById("table-body");
+            tableBody.innerHTML = "";
+
+            data.forEach((item) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.continentExp}</td>
+                    <td>${item.countriesAndTerritories}</td>
+                    <td>${item.dateRep}</td>
+                    <td>${item.cases}</td>
+                    <td>${item["Cumulative_number_for_14_days_of_COVID-19_cases_per_100000"]}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to sort the table
+        function sortTable(columnIndex) {
+            const column = columns[columnIndex].getAttribute("data-column");
+            data.sort((a, b) => {
+                const aValue = a[column];
+                const bValue = b[column];
+                return aValue.localeCompare(bValue, undefined, { numeric: true });
+            });
+
+            // Update sort icons
+            sortIcons.forEach(icon => icon.innerHTML = "");
+            sortIcons[columnIndex].innerHTML = "&#x25B2;";
+            
+            populateTable(data);
+        }
+
+        // Function to format the date as yyyy-mm-dd
+        function formatDate(date) {
+            const parts = date.split("/");
+            const day = parts[0];
+            const month = parts[1];
+            const year = parts[2];
+            return `${year}-${month}-${day}`;
+        }
+
+        // Function to filter data based on user input
+        function filterData() {
+            const selectedContinent = regionFilter.value === "All" ? "" : regionFilter.value;
+            const selectedDay = dayFilter.value;
+            const selectedMonth = monthFilter.value;
+            const selectedYear = yearFilter.value;
+            const searchText = countrySearch.value.toLowerCase();
+
+            const filteredData = data.filter(item => {
+                const dateRepParts = item.dateRep.split("/");
+                const itemDay = dateRepParts[0];
+                const itemMonth = dateRepParts[1];
+                const itemYear = item.year;
+
+                const dayMatch = (selectedDay === "" || itemDay === selectedDay);
+                const monthMatch = (selectedMonth === "" || itemMonth === selectedMonth);
+                const yearMatch = (selectedYear === "" || itemYear === selectedYear);
+                const continentMatch = (selectedContinent === "" || item.continentExp === selectedContinent);
+                const countryMatch = item.countriesAndTerritories.toLowerCase().includes(searchText);
+
+                return dayMatch && monthMatch && yearMatch && continentMatch && countryMatch;
+            });
+
+            populateTable(filteredData);
+        }
+
+        // Fetch data from the JSON URL
+        fetch('https://opendata.ecdc.europa.eu/covid19/casedistribution/json')
+            .then(response => response.json())
+            .then(responseData => {
+                data = responseData.records;
+                populateTable(data);
+
+                // Populate the region filter dropdown with unique continent values
+                const continents = [...new Set(data.map(item => item.continentExp))];
+                continents.forEach(continent => {
+                    const option = document.createElement("option");
+                    option.value = continent;
+                    option.text = continent;
+                    regionFilter.appendChild(option);
+                });
+
+                // Add event listeners for filters
+                regionFilter.addEventListener("input", filterData);
+                dayFilter.addEventListener("input", filterData);
+                monthFilter.addEventListener("input", filterData);
+                yearFilter.addEventListener("input", filterData);
+                countrySearch.addEventListener("input", filterData);
+
+                // Add event listeners for sorting
+                columns.forEach((column, index) => {
+                    column.addEventListener("click", () => sortTable(index));
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+</html>

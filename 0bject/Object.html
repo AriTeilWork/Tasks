@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .selected {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        //1
+        console.log("\nTask:1 !!!!!!!!!!!" );
+
+        // Create an order object and add properties
+        // Luodaan tilausobjekti ja lisätään sille ominaisuuksia
+        // Создаем объект заказа и добавляем свойства
+        let order = {
+            id: 123, // ID of the order
+            date: '2023-11-15', // Date of the order
+            customer: 'John Doe', // Customer's name
+            products: ['puuro-porridge', 'leipä-bread', 'maito-milk'] // Array of products
+        };
+
+        // Print the properties to the console
+        // Tulosta ominaisuudet konsoliin
+        // Выводим свойства в консоль
+        console.log("Order ID:", order.id);
+        console.log("Order Date:", order.date);
+        console.log("Customer:", order.customer);
+
+        // Loop through the products with a for loop
+        // Käydään läpi tuotteet for-loopin avulla
+        // Проходим по товарам с помощью цикла for
+        console.log("Products:");
+        for (let i = 0; i < order.products.length; i++) {
+            console.log(order.products[i]);
+        }
+
+        //2
+        console.log("\nTask:2 !!!!!!!!!!!" );
+
+        // Create a Product constructor function with properties: id, description, quantity, and price
+        // Luodaan Product-konstruktorifunktio, jolla on ominaisuudet: id, description, quantity ja price
+        // Создаем конструктор функции Product с свойствами: id, description, quantity и price
+        function Product(id, description, quantity, price) {
+            this.id = id;
+            this.description = description;
+            this.quantity = quantity;
+            this.price = price;
+        }
+
+        // Create two Product objects using the constructor function
+        // Luodaan kaksi Product-objektia käyttäen konstruktorifunktiota
+        // Создаем два объекта Product с помощью конструктора функции
+        let product1 = new Product(1, 'Tuote 1', 5, 10.99);
+        let product2 = new Product(2, 'Tuote 2', 10, 5.49);
+
+        // Print the information of the variables to the console
+        // Tulostetaan muuttujien tiedot konsoliin
+        // Выводим информацию о переменных в консоль
+        console.log("Product 1:");
+        console.log("ID:", product1.id);
+        console.log("Description:", product1.description);
+        console.log("Quantity:", product1.quantity);
+        console.log("Price:", product1.price);
+
+        console.log("\nProduct 2:");
+        console.log("ID:", product2.id);
+        console.log("Description:", product2.description);
+        console.log("Quantity:", product2.quantity);
+        console.log("Price:", product2.price);
+
+        //3
+        console.log("\nTask:3-4 !!!!!!!!!!!" );
+
+    </script>
+     <h1>Add Books to Your Shelf</h1>
+  
+     <!-- Text fields for adding book details -->
+     <label for="author">Author:</label>
+     <input type="text" id="author">
+     
+     <label for="title">Title:</label>
+     <input type="text" id="title">
+     
+     <label for="year">Year:</label>
+     <input type="text" id="year">
+     
+     <label for="pages">Pages:</label>
+     <input type="text" id="pages">
+     
+     <label for="type">Type:</label>
+     <input type="text" id="type">
+     
+     <!-- Add button -->
+     <button onclick="addBook()">Add Book</button>
+     
+     <!-- Table to display books -->
+     <h2>Bookshelf</h2>
+     <table id="bookshelf">
+       <tr>
+         <th>Author</th>
+         <th>Title</th>
+         <th>Year</th>
+         <th>Pages</th>
+         <th>Type</th>
+       </tr>
+     </table>
+   
+     <!-- Button to show books -->
+     <button onclick="showBooks()">Show Books</button>
+     <script>// Global variable for books
+        let books = [];
+        
+        // Book constructor function
+        function Book(author, title, year, pages, type) {
+          this.author = author;
+          this.title = title;
+          this.year = year;
+          this.pages = pages;
+          this.type = type;
+        }
+        
+        // Function triggered by the Add button
+        function addBook() {
+          // Get values from text fields
+          let author = document.getElementById('author').value;
+          let title = document.getElementById('title').value;
+          let year = document.getElementById('year').value;
+          let pages = document.getElementById('pages').value;
+          let type = document.getElementById('type').value;
+        
+          // Create a Book object and add it to the list
+          let newBook = new Book(author, title, year, pages, type);
+          books.push(newBook);
+        
+          // Update display
+          updateDisplay();
+        }
+        
+        // Display function
+        function updateDisplay() {
+          let table = document.getElementById('bookshelf');
+          table.innerHTML = '<tr><th>Author</th><th>Title</th><th>Year</th><th>Pages</th><th>Type</th></tr>';
+        
+          // Loop through books and add them to the table
+          for (let i = 0; i < books.length; i++) {
+            let row = `<tr><td>${books[i].author}</td><td>${books[i].title}</td><td>${books[i].year}</td><td>${books[i].pages}</td><td>${books[i].type}</td></tr>`;
+            table.innerHTML += row;
+          }
+        }
+        
+        // Show books function triggered by a button
+        function showBooks() {
+          updateDisplay();
+        }
+    </script>
+    <script>// Original object
+            
+            // Convert object to JSON string
+            let objectAsJSON = JSON.stringify(order);
+            console.log(objectAsJSON); // Outputs the object as a JSON string
+            
+            // Attempting to access properties of the JSON string
+            console.log(objectAsJSON.id); // Returns undefined because it's now a string, not an object
+            
+            // Convert JSON string back to object
+            let obj = JSON.parse(objectAsJSON);
+            console.log(obj); // Outputs the parsed object
+            
+            // Now we can access the object properties again
+            console.log(obj.id); // Outputs the original object's id
+            console.log(obj.customer); // Outputs the original object's customer
+    </script>
+
+            <h1>Grades Tracker</h1>
+
+            <label for="subjects">Select Subject:</label>
+            <select id="subjects">
+              <option value="Mathematics">Mathematics</option>
+              <option value="Physics">Physics</option>
+              <option value="Programming">Programming</option>
+              <!-- Add more subjects as needed -->
+            </select>
+          
+            <label for="gradeInput">Enter Grade:</label>
+            <input type="number" id="gradeInput">
+          
+            <button onclick="addGrade()">Add Grade</button>
+            <button onclick="showAverage()">Show Average</button>
+            <button onclick="showAllGrades()">Show All Grades</button>
+          
+            <div id="result"></div>
+            <script>
+                let grades = [];
+
+                function Grade(subject, grade) {
+                  this.subject = subject;
+                  this.grade = grade;
+                }
+                
+                function addGrade() {
+                  let selectedSubject = document.getElementById('subjects').value;
+                  let enteredGrade = parseFloat(document.getElementById('gradeInput').value);
+                
+                  if (!isNaN(enteredGrade)) {
+                    let newGrade = new Grade(selectedSubject, enteredGrade);
+                    grades.push(newGrade);
+                    document.getElementById('gradeInput').value = '';
+                    document.getElementById('result').innerHTML = 'Grade added for ' + selectedSubject;
+                  } else {
+                    document.getElementById('result').innerHTML = 'Please enter a valid grade.';
+                  }
+                }
+                
+                function showAverage() {
+                  let selectedSubject = document.getElementById('subjects').value;
+                  let sum = 0;
+                  let count = 0;
+                
+                  for (let i = 0; i < grades.length; i++) {
+                    if (grades[i].subject === selectedSubject) {
+                      sum += grades[i].grade;
+                      count++;
+                    }
+                  }
+                
+                  let average = sum / count || 0;
+                  document.getElementById('result').innerHTML = `Average grade for ${selectedSubject}: ${average.toFixed(2)}`;
+                }
+                
+                function showAllGrades() {
+                  let allGrades = '<h3>All Grades:</h3>';
+                
+                  for (let i = 0; i < grades.length; i++) {
+                    allGrades += `${grades[i].subject}: ${grades[i].grade}<br>`;
+                  }
+                
+                  document.getElementById('result').innerHTML = allGrades;
+                }
+            </script>
+
+            <script>// Create a text variable and assign JSON data to it
+                let text = '{"id":"123", "name":"Mickey Mouse", "phone":"1234567", "room":"A3157","courses":["course1", "course2", "course3"] }';
+                
+                // Convert text variable to an object named teacher using JSON.parse()
+                let teacher = JSON.parse(text);
+                
+                // Print object properties to the console
+                console.log(teacher["name"]); 
+                // or 
+                console.log(teacher.name)
+                
+                // Loop through all object properties dynamically using for-in loop
+                for (let key in teacher) {
+                    console.log(key + ": " + teacher[key]);
+                }
+                
+                // Properties to the teacher object
+                teacher.address = "123 Street";
+                teacher.city = "Disneyland";
+                teacher.gsm = "987654321";
+                
+                // Convert the object back to JSON format and log it to the console
+                let teacherJSON = JSON.stringify(teacher);
+                console.log(teacherJSON);
+                
+                // Create an array named teachers and add more teacher objects to it using push method
+                let teachers = [];
+                teachers.push(teacher);
+                
+                // Print the teachers array to the console
+                console.log(teachers);
+                
+                // Loop through all teachers, printing their id and name properties to the console
+                for (let i = 0; i < teachers.length; i++) {
+                    console.log("Teacher ID:", teachers[i].id, "- Name:", teachers[i].name);
+                }
+                
+                // Convert the array to JSON-formatted text and print it to the console
+                let teachersJSON = JSON.stringify(teachers);
+                console.log(teachersJSON);
+                </script>
+                <h1>Adding Cars for Sale</h1>
+                <label for="make">Make:</label>
+                <input type="text" id="make"><br>
+                
+                <label for="model">Model:</label>
+                <input type="text" id="model"><br>
+                
+                <label for="fuelType">Fuel Type:</label>
+                <select id="fuelType">
+                    <option value="Gas">Gas</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Electric">Electric</option>
+                </select><br>
+                
+                <label for="driveType">Drive Type:</label>
+                <select id="driveType">
+                    <option value="Front-wheel drive">Front-wheel drive</option>
+                    <option value="Rear-wheel drive">Rear-wheel drive</option>
+                    <option value="All-wheel drive">All-wheel drive</option>
+                </select><br>
+                
+                <label for="price">Price:</label>
+                <input type="number" id="price"><br>
+                
+                <button onclick="addCar()">Add Car for Sale</button>
+                
+                <h1>Displaying Cars for Sale</h1>
+                <button onclick="showAllCars()">Show All Cars for Sale</button>
+                <div id="carList"></div>
+                
+                <script>
+                    let cars = [];
+            
+                    function Car(make, model, fuelType, driveType, price) {
+                        this.make = make;
+                        this.model = model;
+                        this.fuelType = fuelType;
+                        this.driveType = driveType;
+                        this.price = price;
+                    }
+            
+                    function addCar() {
+                        let make = document.getElementById('make').value;
+                        let model = document.getElementById('model').value;
+                        let fuelType = document.getElementById('fuelType').value;
+                        let driveType = document.getElementById('driveType').value;
+                        let price = document.getElementById('price').value;
+            
+                        let newCar = new Car(make, model, fuelType, driveType, price);
+                        cars.push(newCar);
+                        alert('Car added successfully!');
+                    }
+            
+                    function showAllCars() {
+                        let carListDiv = document.getElementById('carList');
+                        carListDiv.innerHTML = '';
+            
+                        for (let i = 0; i < cars.length; i++) {
+                            let carDetails = `Make: ${cars[i].make}, Model: ${cars[i].model}, Fuel Type: ${cars[i].fuelType}, Drive Type: ${cars[i].driveType}, Price: ${cars[i].price}`;
+                            carListDiv.innerHTML += `<p>${carDetails}</p>`;
+                        }
+                    }
+                </script>
+                <h1>Randomized Quiz</h1>
+                <div id="quiz-container">
+                    <h2 id="question"></h2>
+                    <ul id="options"></ul>
+                    <button onclick="displayRandomQuestion()">Next Question</button>
+                    <button onclick="checkAnswer()">Check Answer</button>
+                    <p id="result"></p>
+                </div>
+            
+                <script>
+                    const quizQuestions = [
+                        {
+                            question: "What is the capital of France?",
+                            options: ["Paris", "London", "Berlin", "Rome"],
+                            answer: "Paris"
+                        },
+                        {
+                            question: "Which planet is known as the Red Planet?",
+                            options: ["Earth", "Mars", "Venus", "Jupiter"],
+                            answer: "Mars"
+                        },
+                        {
+                            question: "What is the largest mammal in the world?",
+                            options: ["Elephant", "Giraffe", "Blue Whale", "Hippopotamus"],
+                            answer: "Blue Whale"
+                        }
+                        // Add more quiz questions here...
+                    ];
+            
+                    let currentQuestionIndex = null;
+                    let userAnswer = null;
+            
+                    function displayRandomQuestion() {
+                        currentQuestionIndex = Math.floor(Math.random() * quizQuestions.length);
+                        const selectedQuestion = quizQuestions[currentQuestionIndex];
+            
+                        const questionElement = document.getElementById("question");
+                        const optionsList = document.getElementById("options");
+            
+                        questionElement.textContent = selectedQuestion.question;
+                        optionsList.innerHTML = "";
+            
+                        selectedQuestion.options.forEach((option, index) => {
+                            const listItem = document.createElement("li");
+                            listItem.textContent = option;
+                            listItem.onclick = function() {
+                                userAnswer = index;
+                                const allOptions = optionsList.querySelectorAll("li");
+                                allOptions.forEach(option => {
+                                    option.classList.remove("selected");
+                                });
+                                listItem.classList.add("selected");
+                            };
+                            optionsList.appendChild(listItem);
+                        });
+            
+                        document.getElementById("result").textContent = "";
+                    }
+            
+                    function checkAnswer() {
+                        if (currentQuestionIndex !== null && userAnswer !== null) {
+                            const selectedQuestion = quizQuestions[currentQuestionIndex];
+                            const correctAnswerIndex = selectedQuestion.options.indexOf(selectedQuestion.answer);
+            
+                            const resultElement = document.getElementById("result");
+                            if (userAnswer === correctAnswerIndex) {
+                                resultElement.textContent = "Correct!";
+                            } else {
+                                resultElement.textContent = "Incorrect. The correct answer was: " + selectedQuestion.answer;
+                            }
+                        } else {
+                            alert("Please select an answer first.");
+                        }
+                    }
+                </script>
+</body>
+</html>

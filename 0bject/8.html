@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Randomized Quiz</title>
+    <style>
+        .selected {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Randomized Quiz</h1>
+    <div id="quiz-container">
+        <h2 id="question"></h2>
+        <ul id="options"></ul>
+        <button onclick="displayRandomQuestion()">Next Question</button>
+        <button onclick="checkAnswer()">Check Answer</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const quizQuestions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Paris", "London", "Berlin", "Rome"],
+                answer: "Paris"
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Earth", "Mars", "Venus", "Jupiter"],
+                answer: "Mars"
+            },
+            {
+                question: "What is the largest mammal in the world?",
+                options: ["Elephant", "Giraffe", "Blue Whale", "Hippopotamus"],
+                answer: "Blue Whale"
+            },
+            {
+                question: "What is the tallest mountain on Earth?",
+                options: ["Mount Everest", "K2", "Makalu", "Lhotse"],
+                answer: "Mount Everest"
+            },
+            {
+                question: "What year did World War I begin?",
+                options: ["1912", "1914", "1916", "1918"],
+                answer: "1914"
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                answer: "Pacific Ocean"
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Michelangelo", "Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso"],
+                answer: "Leonardo da Vinci"
+            },
+            {
+                question: "Which country is known as the Land of the Rising Sun?",
+                options: ["China", "Japan", "Korea", "Vietnam"],
+                answer: "Japan"
+            },
+            {
+                question: "Who wrote the play 'Romeo and Juliet'?",
+                options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                answer: "William Shakespeare"
+            },
+            {
+                question: "What is the largest organ in the human body?",
+                options: ["Liver", "Heart", "Skin", "Lungs"],
+                answer: "Skin"
+            },
+            {
+                question: "Which gas is most abundant in the Earth's atmosphere?",
+                options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+                answer: "Nitrogen"
+            },
+            {
+                question: "Who developed the theory of relativity?",
+                options: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Stephen Hawking"],
+                answer: "Albert Einstein"
+            },
+            {
+                question: "What is the smallest prime number?",
+                options: ["0", "1", "2", "3"],
+                answer: "2"
+            },
+            {
+                question: "Which bird is known for its ability to mimic human speech?",
+                options: ["Crow", "Parrot", "Eagle", "Sparrow"],
+                answer: "Parrot"
+            },
+            {
+                question: "Who is known as the father of modern physics?",
+                options: ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Nikola Tesla"],
+                answer: "Albert Einstein"
+            }
+        ];
+        
+
+        let currentQuestionIndex = null;
+        let userAnswer = null;
+
+        function displayRandomQuestion() {
+            currentQuestionIndex = Math.floor(Math.random() * quizQuestions.length);
+            const selectedQuestion = quizQuestions[currentQuestionIndex];
+
+            const questionElement = document.getElementById("question");
+            const optionsList = document.getElementById("options");
+
+            questionElement.textContent = selectedQuestion.question;
+            optionsList.innerHTML = "";
+
+            selectedQuestion.options.forEach((option, index) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = option;
+                listItem.onclick = function() {
+                    userAnswer = index;
+                    clearSelections();
+                    listItem.classList.add("selected");
+                };
+                optionsList.appendChild(listItem);
+            });
+
+            document.getElementById("result").textContent = "";
+        }
+
+        function clearSelections() {
+            const allOptions = document.querySelectorAll("#options li");
+            allOptions.forEach(option => {
+                option.classList.remove("selected");
+            });
+        }
+
+        function checkAnswer() {
+            if (currentQuestionIndex !== null && userAnswer !== null) {
+                const selectedQuestion = quizQuestions[currentQuestionIndex];
+                const correctAnswerIndex = selectedQuestion.options.indexOf(selectedQuestion.answer);
+
+                const resultElement = document.getElementById("result");
+                if (userAnswer === correctAnswerIndex) {
+                    resultElement.textContent = "Correct!";
+                } else {
+                    resultElement.textContent = `Incorrect. The correct answer was: ${selectedQuestion.answer}`;
+                }
+            } else {
+                alert("Please select an answer first.");
+            }
+        }
+    </script>
+</body>
+</html>

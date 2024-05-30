@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Numbers & Rock, Paper, Scissors</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Lucky Numbers & Rock, Paper, Scissors</h1>
+
+    <!-- Lucky Number Calculator -->
+    <div>
+        <h2>Lucky Number Calculator</h2>
+        <label for="birthdate">Enter your birthdate (YYYY-MM-DD): </label>
+        <input type="text" id="birthdate">
+        <button onclick="calculateLuckyNumber()" id="calculateButton">Calculate Lucky Number</button>
+        <p>Your lucky number is: <span id="luckyNumber"></span></p>
+    </div>
+
+    <!-- Rock, Paper, Scissors Game -->
+    <div>
+        <h2>Rock, Paper, Scissors Game</h2>
+        <label for="choice">Choose: </label>
+        <select id="choice">
+            <option value="rock">Rock</option>
+            <option value="paper">Paper</option>
+            <option value="scissors">Scissors</option>
+        </select>
+        <button onclick="playGame()" id="playButton">Play</button>
+        <p id="gameResult"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
