@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>Icons/copy.png</file>
+    <file>Icons/dice.png</file>
+    <file>Icons/empty_eyedropper.png</file>
+    <file>Icons/eyedropper.png</file>
+    <file>Icons/icon.ico</file>
+    <file>Icons/invert.png</file>
+    <file>Icons/color_wheel.png</file>
+</qresource>
+</RCC>
